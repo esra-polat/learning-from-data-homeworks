@@ -7,7 +7,7 @@ def generate_random(n):
     return np.random.uniform(-1, 1, size = n)
 
 def pla(data_size):
-    N = data_size
+    N_sample = data_size
     N_test = 1000
     run_step = 1000
     total_iteration = 0
@@ -23,14 +23,15 @@ def pla(data_size):
         theta2 = generate_random(d)
 
         # a line formula is y = a*x + b
-        a = (theta2[1] - theta1[1]) / (theta2[0] - theta1[0]) # a is the slope
+        # a is the slope
+        a = (theta2[1] - theta1[1]) / (theta2[0] - theta1[0]) 
         b = theta2[1] - a * theta2[0]  
-        w = np.array([b, a, -1])
+        y = np.array([b, a, -1])
 
         # Choose the inputs x_n of the data set as random points
-        X = np.transpose(np.array([np.ones(N), generate_random(N), generate_random(N)]))
+        X = np.transpose(np.array([np.ones(N_sample), generate_random(N_sample), generate_random(N_sample)]))
         # Evaluate the target function on each x_n to get the corresponding output y_n
-        y = np.sign(np.dot(X, w))
+        y_target = np.sign(np.dot(X, y))
         
         # initialize weight vector being all zeros
         weight = np.zeros(3)     
@@ -47,7 +48,7 @@ def pla(data_size):
             # the probability that f and g will disagree on their classification of a random point 
 
             # compare classification with actual data from target function  
-            comp = (y_hypo != y)                 
+            comp = (y_hypo != y_target)                 
             # indices of points with wrong classification by hypothesis h     
             wrong = np.where(comp)[0]                 
 
@@ -58,23 +59,22 @@ def pla(data_size):
             random_choice = np.random.choice(wrong)      
 
             # update weight vector (new hypothesis):
-            weight = weight +  y[random_choice] * np.transpose(X[random_choice])
+            weight = weight +  y_target[random_choice] * np.transpose(X[random_choice])
             count_iteration += 1
 
         total_iteration += count_iteration
         
         # Calculate error
         # Create data "outside" of training data
-
         x0_test = np.random.uniform(-1,1,N_test)
         x1_test = np.random.uniform(-1,1,N_test)
 
         X_test = np.array([np.ones(N_test), x0_test, x1_test]).T
 
-        y_target = np.sign(X_test.dot(w))
-        y_hypothesis = np.sign(X_test.dot(weight))
+        y_target_test = np.sign(X_test.dot(y))
+        y_hypo_test = np.sign(X_test.dot(weight))
         
-        mismatch_ratio = ((y_target != y_hypothesis).sum()) / N_test
+        mismatch_ratio = ((y_target_test != y_hypo_test).sum()) / N_test
         mismatch_total += mismatch_ratio
         
     # Average ratio for the mismatch between f(x) and h(x) outside of the training data
@@ -83,8 +83,7 @@ def pla(data_size):
 
 
 def calculator(number):
-    N = int(number/10)
-    dataset = [N*i for i in range(1, 11)]
+    dataset = [int(number/10)*i for i in range(1, 11)]
     E_out, iterations = [], []
         
     for size in dataset:
@@ -92,28 +91,14 @@ def calculator(number):
         E_out.append(mismatch_avg)
         iterations.append(iteration_avg)
 
-    plt.figure(1)
-    plt.plot(dataset, E_out, 'ro')
-    plt.ylabel("E_out")
-    plt.xlabel("size training")
-    plt.savefig('E_out.png')
-
-    plt.figure(2)
-    plt.plot(dataset, iterations, 'bo')
-    plt.ylabel("PLA iterations")
-    plt.xlabel("size training")
-    plt.savefig('PLA.png')
-
-    print("PLA iterations:\t", '{:1.2f}'.format(iterations[9]))
-    print("P(f(x)!=h(x)):\t", '{:1.2f}'.format(E_out[9]))
-
-    plt.show()
+    print("\nPLA iterations:\t", '{:1.2f}'.format(iterations[9]))
+    print("P(f(x)!=h(x)):\t", '{:1.2f}'.format(E_out[9]), "\n")
 
 # -----------------------------------------------------------------
 
 def start(n):
 
-    print("\nCalculating for N:", n)
+    print("\nCalculating for N:", n, "\n")
     # loading bar
     with click.progressbar(range(1000000)) as bar:
         for i in bar:
