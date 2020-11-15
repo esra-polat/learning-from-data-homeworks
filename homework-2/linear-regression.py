@@ -1,3 +1,6 @@
+#150116884
+#Esra Polat
+
 from matplotlib.pyplot import show
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,7 +16,6 @@ def linear_regression(data_size):
     N_test = 1000
     E_in_total = 0
     E_out_total = 0
-    total_iteration = 0
     d = 2 
 
     for run in range(run_step):
@@ -21,8 +23,8 @@ def linear_regression(data_size):
         # in each run, choose a random line in the plane 
         # do this taking two random points theta1, theta2 in [-1,1] x [-1,1]
         # take d = 2
-        theta1 = generate_random(2)
-        theta2 = generate_random(2)
+        theta1 = generate_random(d)
+        theta2 = generate_random(d)
 
         # a line formula is y = a*x + b
         # a is the slope
@@ -46,8 +48,6 @@ def linear_regression(data_size):
         E_in = sum(y_lr != y) / N_sample
         E_in_total += E_in
 
-        # Problem 6: Take 1000 test points (out of sample points) and count disagreement
-        # between y_target_test and y_hypo_test
         X_test = np.transpose(np.array([np.ones(N_test), generate_random(N_test), generate_random(N_test)]))
         y_target_test = np.sign(np.dot(X_test, w))
         y_hypo_test = np.sign(np.dot(X_test, w_lr))

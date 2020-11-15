@@ -1,3 +1,6 @@
+#150116884
+#Esra Polat
+
 import numpy as np
 import matplotlib.pyplot as plt
 import random
@@ -8,7 +11,7 @@ def generate_random(n):
 
 def pla(data_size):
     N_sample = data_size
-    N_test = 1000
+    N_test = data_size
     run_step = 1000
     total_iteration = 0
     mismatch_total = 0
@@ -58,14 +61,13 @@ def pla(data_size):
             # pick a random misclassified point
             random_choice = np.random.choice(wrong)      
 
-            # update weight vector (new hypothesis):
+            # update weight vector
             weight = weight +  y_target[random_choice] * np.transpose(X[random_choice])
             count_iteration += 1
 
         total_iteration += count_iteration
         
         # Calculate error
-        # Create data "outside" of training data
         x0_test = np.random.uniform(-1,1,N_test)
         x1_test = np.random.uniform(-1,1,N_test)
 
@@ -77,8 +79,7 @@ def pla(data_size):
         mismatch_ratio = ((y_target_test != y_hypo_test).sum()) / N_test
         mismatch_total += mismatch_ratio
         
-    # Average ratio for the mismatch between f(x) and h(x) outside of the training data
-    # mismatch_avg, iteration_avg 
+    # return the mismatch avg and iteration avg 
     return (mismatch_total / run_step, total_iteration / run_step) 
 
 

@@ -1,6 +1,8 @@
+#150116884
+#Esra Polat
+
 import math
 
-# Hoeffding Inequality
 def lower_bound(M, epsilon = 0.05):
     return math.ceil(-1 / (2 * epsilon**2) * math.log(0.03 / (2 * M)))
 
