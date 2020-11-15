@@ -8,5 +8,7 @@ Online Machine Learning course from Caltech that in parallel with my machine lea
 
 ### Homework 1
 - Perceptron Learning Algorithm
+### Homework 2
+- Linear Regression
 ### Homework 3
 - Generalization Error
