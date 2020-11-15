@@ -6,5 +6,7 @@ Online Machine Learning course from Caltech that in parallel with my machine lea
 - Lectures/slides: https://work.caltech.edu/lectures.html 
 - Homeworks: https://work.caltech.edu/homeworks.html#schedule 
 
+### Homework 1
+- Perceptron Learning Algorithm
 ### Homework 3
 - Generalization Error
