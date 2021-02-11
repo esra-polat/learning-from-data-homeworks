@@ -13,3 +13,13 @@ Online Machine Learning course from Caltech that in parallel with my machine lea
 - Nonlinear Regression
 ### Homework 3
 - Generalization Error
+### Homework 5
+- Gradient Descent
+- Logistic Regression
+### Homework 6
+- Neural Networks
+- Regularization with weight decay
+### Homework 8
+- Polynomial Kernels
+- Cross Validation
+- RBF Kernel
